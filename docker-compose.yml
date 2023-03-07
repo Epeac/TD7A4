@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:6.0.4
+    networks:
+      - banana
+  web:
+    build: .
+    container_name: td6_dock_compose
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app.py/app/app.py
+      - ./requirements.txt:/app/requirements.txt
+      - ./file.txt:/app/file.txt
+    environment:
+      - MONGO_URI=mongodb://mondodb:27017/test_db
+    networks:
+      - banana
+networks:
+  banana:
+    driver: bridge
